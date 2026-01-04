@@ -23,8 +23,6 @@ def load_data():
     energy_generation = pd.read_csv("data/energy_generation.csv")
     return energy_consumption, energy_generation
 
-
-
 consumption_df, generation_df = load_data()
 
 
