@@ -3,7 +3,6 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-
 # -----------------------------
 # Page configuration
 # -----------------------------
@@ -12,7 +11,6 @@ st.set_page_config(
     page_icon="⚡",
     layout="wide"
 )
-
 
 # -----------------------------
 # Data loading
@@ -24,7 +22,6 @@ def load_data():
     return energy_consumption, energy_generation
 
 consumption_df, generation_df = load_data()
-
 
 # -----------------------------
 # Sidebar controls
@@ -41,32 +38,27 @@ year_range = st.sidebar.slider(
     (min_year, max_year)
 )
 
-
-
 # Filter data based on user input
 consumption_filtered = consumption_df[
-(consumption_df['year'] >= year_range[0]) &
-(consumption_df['year'] <= year_range[1])
+    (consumption_df['year'] >= year_range[0]) &
+    (consumption_df['year'] <= year_range[1])
 ]
-
 
 generation_filtered = generation_df[
-(generation_df['year'] >= year_range[0]) &
-(generation_df['year'] <= year_range[1])
+    (generation_df['year'] >= year_range[0]) &
+    (generation_df['year'] <= year_range[1])
 ]
-
 
 # -----------------------------
 # Tabs layout
 # -----------------------------
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
-"Overview",
-"Consumption Trends",
-"Energy Mix",
-"Scenario Explorer",
-"Conclusions"
+    "Overview",
+    "Consumption Trends",
+    "Energy Mix",
+    "Scenario Explorer",
+    "Conclusions"
 ])
-
 
 # -----------------------------
 # Tab 1: Overview
@@ -88,10 +80,13 @@ with tab1:
         consumption_filtered,
         x="year",
         y="consumption_mwh",
-        title="Electricity Consumption Over Time"
+        title="Electricity Consumption Over Time",
+        markers=True,
+        labels={"year": "Year", "consumption_mwh": "Consumption (MWh)"},
+        hover_data={"year": True, "consumption_mwh": ":,.0f"}
     )
+    fig.update_layout(template="plotly_white")
     st.plotly_chart(fig, use_container_width=True)
-
 
 # -----------------------------
 # Tab 2: Consumption Trends
@@ -104,13 +99,15 @@ with tab2:
         x="year",
         y="consumption_mwh",
         markers=True,
-        title="Yearly Electricity Consumption"
+        title="Yearly Electricity Consumption",
+        labels={"year": "Year", "consumption_mwh": "Consumption (MWh)"},
+        hover_data={"year": True, "consumption_mwh": ":,.0f"}
     )
+    fig.update_layout(template="plotly_white")
     st.plotly_chart(fig, use_container_width=True)
 
     st.write("Descriptive statistics")
-    st.dataframe(consumption_filtered[['consumption_mwh']].describe())
-
+    st.dataframe(consumption_filtered[['consumption_mwh']].describe().style.format("{:,.0f}"))
 
 # -----------------------------
 # Tab 3: Energy Mix
@@ -124,10 +121,12 @@ with tab3:
         y="generation_mwh",
         color="source_type",
         title="Renewable vs Non-Renewable Energy Generation",
-        barmode="stack"
+        barmode="stack",
+        labels={"year": "Year", "generation_mwh": "Generation (MWh)", "source_type": "Energy Source"},
+        hover_data={"generation_mwh": ":,.0f"}
     )
+    fig.update_layout(template="plotly_white", legend_title_text='Energy Source')
     st.plotly_chart(fig, use_container_width=True)
-
 
 # -----------------------------
 # Tab 4: Scenario Explorer
@@ -152,12 +151,14 @@ with tab4:
         y="generation_mwh",
         color="source_type",
         title="Simulated Energy Mix (Illustrative Scenario)",
-        barmode="stack"
+        barmode="stack",
+        labels={"year": "Year", "generation_mwh": "Generation (MWh)", "source_type": "Energy Source"},
+        hover_data={"generation_mwh": ":,.0f"}
     )
+    fig.update_layout(template="plotly_white", legend_title_text='Energy Source')
     st.plotly_chart(fig, use_container_width=True)
 
     st.caption("Scenarios are illustrative and not predictive")
-
 
 # -----------------------------
 # Tab 5: Conclusions
@@ -176,4 +177,3 @@ with tab5:
         - Use data-driven scenario analysis to support policy decisions.
         """
     )
-
