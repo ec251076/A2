@@ -8,9 +8,9 @@ import plotly.express as px
 # Page configuration
 # -----------------------------
 st.set_page_config(
-page_title="Isle of Man Energy Dashboard",
-page_icon="⚡",
-layout="wide"
+    page_title="Isle of Man Energy Dashboard",
+    page_icon="⚡",
+    layout="wide"
 )
 
 
@@ -31,17 +31,16 @@ consumption_df, generation_df = load_data()
 # -----------------------------
 st.sidebar.title("Controls")
 
-
-min_year = int(consumption_df['year'].min())
-max_year = int(consumption_df['year'].max())
-
+min_year = int(consumption_df["year"].min())
+max_year = int(consumption_df["year"].max())
 
 year_range = st.sidebar.slider(
-"Select year range",
-min_year,
-max_year,
-(min_year, max_year)
+    "Select year range",
+    min_year,
+    max_year,
+    (min_year, max_year)
 )
+
 
 
 # Filter data based on user input
