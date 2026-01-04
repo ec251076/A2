@@ -19,9 +19,10 @@ layout="wide"
 # -----------------------------
 @st.cache_data
 def load_data():
-energy_consumption = pd.read_csv("data/energy_consumption.csv")
-energy_generation = pd.read_csv("data/energy_generation.csv")
-return energy_consumption, energy_generation
+    energy_consumption = pd.read_csv("data/energy_consumption.csv")
+    energy_generation = pd.read_csv("data/energy_generation.csv")
+    return energy_consumption, energy_generation
+
 
 
 consumption_df, generation_df = load_data()
