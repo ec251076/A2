@@ -29,6 +29,10 @@ def load_data():
     )
     return energy_consumption, energy_generation
 
+st.write("Columns:", consumption_df.columns.tolist())
+st.write(consumption_df.head())
+
+
 
 consumption_df, generation_df = load_data()
 
@@ -61,10 +65,16 @@ st.sidebar.title("Controls")
 consumption_df.columns = consumption_df.columns.str.strip().str.lower()
 generation_df.columns = generation_df.columns.str.strip().str.lower()
 
-# Create year column from date
-if "date" in consumption_df.columns:
-    consumption_df["date"] = pd.to_datetime(consumption_df["date"])
-    consumption_df["year"] = consumption_df["date"].dt.year
+# --- Create year column safely ---
+if "year" not in consumption_df.columns:
+    if "date" in consumption_df.columns:
+        consumption_df["date"] = pd.to_datetime(consumption_df["date"])
+        consumption_df["year"] = consumption_df["date"].dt.year
+    elif "period" in consumption_df.columns:
+        consumption_df["year"] = consumption_df["period"].astype(int)
+    else:
+        st.error("No year or date column found in consumption data")
+        st.stop()
 
 
 min_year = int(consumption_df["year"].min())
