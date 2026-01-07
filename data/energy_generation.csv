@@ -1,3 +1,5 @@
-energy_consumption.csv
-
-energy_generation.csv
+date,generation_mwh,source_type
+01/01/2018,800,Renewable
+01/01/2018,400,Non-Renewable
+01/01/2019,900,Renewable
+01/01/2019,450,Non-Renewable
