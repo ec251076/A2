@@ -32,6 +32,21 @@ def load_data():
 
 consumption_df, generation_df = load_data()
 
+
+# clean column names
+consumption_df.columns = consumption_df.columns.str.strip().str.lower()
+generation_df.columns = generation_df.columns.str.strip().str.lower()
+
+# create year
+if "date" in consumption_df.columns:
+    consumption_df["date"] = pd.to_datetime(consumption_df["date"])
+    consumption_df["year"] = consumption_df["date"].dt.year
+
+# NOW use year
+min_year = int(consumption_df["year"].min())
+max_year = int(consumption_df["year"].max())
+
+
 st.write("Consumption columns:", list(consumption_df.columns))
 st.write(consumption_df.head(3))
 
@@ -42,12 +57,18 @@ st.write(consumption_df.head(3))
 # -----------------------------
 st.sidebar.title("Controls")
 
+# Clean column names
+consumption_df.columns = consumption_df.columns.str.strip().str.lower()
+generation_df.columns = generation_df.columns.str.strip().str.lower()
+
+# Create year column from date
 if "date" in consumption_df.columns:
     consumption_df["date"] = pd.to_datetime(consumption_df["date"])
     consumption_df["year"] = consumption_df["date"].dt.year
 
-min_year = int(consumption_df["Year"].min())
-max_year = int(consumption_df["Year"].max())
+
+min_year = int(consumption_df["year"].min())
+max_year = int(consumption_df["year"].max())
 
 year_range = st.sidebar.slider(
     "Select year range",
