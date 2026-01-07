@@ -22,13 +22,11 @@ BASE_DIR = Path(__file__).parent
 consumption_df, generation_df = load_data()
 
 @st.cache_data
+
 def load_data():
-    energy_consumption = pd.read_csv(
-        BASE_DIR / "data" / "energy_consumption.csv"
-    )
-    energy_generation = pd.read_csv(
-        BASE_DIR / "data" / "energy_generation.csv"
-    )
+    consumption_df = pd.read_csv("consumption.csv")
+    generation_df = pd.read_csv("generation.csv")
+    
     return energy_consumption, energy_generation
 
 st.write("Columns:", consumption_df.columns.tolist())
