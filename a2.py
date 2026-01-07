@@ -15,11 +15,20 @@ st.set_page_config(
 # -----------------------------
 # Data loading
 # -----------------------------
+from pathlib import Path
+
+BASE_DIR = Path(__file__).parent
+
 @st.cache_data
 def load_data():
-    energy_consumption = pd.read_csv("data/energy_consumption.csv")
-    energy_generation = pd.read_csv("data/energy_generation.csv")
+    energy_consumption = pd.read_csv(
+        BASE_DIR / "data" / "energy_consumption.csv"
+    )
+    energy_generation = pd.read_csv(
+        BASE_DIR / "data" / "energy_generation.csv"
+    )
     return energy_consumption, energy_generation
+
 
 consumption_df, generation_df = load_data()
 
