@@ -1,6 +1,14 @@
-Date,Total_CO2_tonnes
-2018-01-01,1327.4
-2018-01-02,1327.4
-2019-01-01,1287.7
-2019-01-02,1287.7
+Date,Source,Emissions
+2018-01-01,Transport,120.5
+2018-01-02,Transport,118.3
+2019-01-01,Transport,130.2
+2019-01-02,Transport,125.7
+2018-01-01,Industry,210.7
+2018-01-02,Industry,205.4
+2019-01-01,Industry,220.1
+2019-01-02,Industry,215.3
+2018-01-01,Residential,95.2
+2018-01-02,Residential,92.8
+2019-01-01,Residential,100.4
+2019-01-02,Residential,97.9
 
