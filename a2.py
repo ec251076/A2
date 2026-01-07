@@ -41,8 +41,8 @@ st.write(consumption_df.head())
 # -----------------------------
 st.sidebar.title("Controls")
 
-min_year = int(consumption_df["year"].min())
-max_year = int(consumption_df["year"].max())
+min_year = int(consumption_df["Year"].min())
+max_year = int(consumption_df["Year"].max())
 
 year_range = st.sidebar.slider(
     "Select year range",
