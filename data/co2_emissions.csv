@@ -1,14 +1,29 @@
-Date,Source,Emissions
-2018-01-01,Transport,120.5
-2018-01-02,Transport,118.3
-2019-01-01,Transport,130.2
-2019-01-02,Transport,125.7
-2018-01-01,Industry,210.7
-2018-01-02,Industry,205.4
-2019-01-01,Industry,220.1
-2019-01-02,Industry,215.3
-2018-01-01,Residential,95.2
-2018-01-02,Residential,92.8
-2019-01-01,Residential,100.4
-2019-01-02,Residential,97.9
+| Date       | Source      | Emissions |
+| ---------- | ----------- | --------- |
+| 2016-01-01 | Transport   | 118.2     |
+| 2016-01-01 | Industry    | 212.5     |
+| 2016-01-01 | Residential | 97.1      |
+| 2016-01-02 | Transport   | 121.0     |
+| 2016-01-02 | Industry    | 208.7     |
+| 2016-01-02 | Residential | 93.8      |
+| ...        | ...         | ...       |
+| 2018-01-01 | Transport   | 120.5     |
+| 2018-01-02 | Transport   | 118.3     |
+| 2018-01-01 | Industry    | 210.7     |
+| 2018-01-02 | Industry    | 205.4     |
+| 2018-01-01 | Residential | 95.2      |
+| 2018-01-02 | Residential | 92.8      |
+| 2019-01-01 | Transport   | 130.2     |
+| 2019-01-02 | Transport   | 125.7     |
+| 2019-01-01 | Industry    | 220.1     |
+| 2019-01-02 | Industry    | 215.3     |
+| 2019-01-01 | Residential | 100.4     |
+| 2019-01-02 | Residential | 97.9      |
+| 2025-12-30 | Transport   | 127.8     |
+| 2025-12-30 | Industry    | 228.4     |
+| 2025-12-30 | Residential | 101.3     |
+| 2025-12-31 | Transport   | 124.5     |
+| 2025-12-31 | Industry    | 223.7     |
+| 2025-12-31 | Residential | 98.6      |
+
 
