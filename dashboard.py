@@ -49,7 +49,7 @@ page = st.sidebar.selectbox(
 # Overview Page
 # -----------------------------
 if page == "Overview":
-    st.title("🏝️ Island Sustainability Overview")
+    st.title("🏝️ Isle of Wight Dashboard")
 
     # Metrics
     col1, col2, col3, col4 = st.columns(4)
