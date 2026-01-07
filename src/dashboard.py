@@ -14,8 +14,8 @@ sys.path.append(PROJECT_ROOT)
 # -----------------------------
 # Imports from other scripts
 # -----------------------------
-from src.data_processing import load_all_data
-from src.analysis import (
+from data_processing import load_all_data
+from analysis import (
     total_energy,
     total_renewable,
     renewable_percentage,
@@ -24,7 +24,7 @@ from src.analysis import (
     monthly_aggregation,
     latest_values
 )
-from src.visualizations import plot_line, plot_bar, plot_pie
+from visualizations import plot_line, plot_bar, plot_pie
 
 # -----------------------------
 # Page Configuration
