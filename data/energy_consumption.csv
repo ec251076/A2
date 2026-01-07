@@ -1,5 +1,6 @@
-date,consumption_mwh,region
-01/01/2018,1234,Isle of Man
-01/02/2018,1100,Isle of Man
-01/01/2019,1300,Isle of Man
-01/02/2019,1150,Isle of Man
+Date,Sector,Consumption
+2018-01-01,Residential,1200
+2018-01-02,Residential,1180
+2019-01-01,Commercial,1450
+2019-01-02,Industrial,1600
+
