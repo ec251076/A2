@@ -3,13 +3,13 @@
 import pandas as pd
 import os
 
-def load_csv(file_path, parse_dates=['Date']):
-    """Load a CSV and parse dates."""
-    if os.path.exists(file_path):
-        df = pd.read_csv(file_path, parse_dates=parse_dates)
-        return df
-    else:
-        raise FileNotFoundError(f"{file_path} not found.")
+def load_csv(file_path):
+    df = pd.read_csv(file_path)
+
+    if "Date" in df.columns:
+        df["Date"] = pd.to_datetime(df["Date"])
+
+    return df
 
 def clean_energy(df):
     """Clean energy dataframe."""
