@@ -42,6 +42,10 @@ st.write(consumption_df.head(3))
 # -----------------------------
 st.sidebar.title("Controls")
 
+if "date" in consumption_df.columns:
+    consumption_df["date"] = pd.to_datetime(consumption_df["date"])
+    consumption_df["year"] = consumption_df["date"].dt.year
+
 min_year = int(consumption_df["Year"].min())
 max_year = int(consumption_df["Year"].max())
 
