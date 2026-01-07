@@ -1,3 +1,15 @@
+import sys
+import os
+
+# Add project root to Python path so imports work
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# Now imports will work
+from src.data_processing import load_all_data
+from src.analysis import total_energy, total_renewable, renewable_percentage, total_water, total_co2, monthly_aggregation, latest_values
+from src.visualizations import plot_line, plot_bar, plot_pie
+
+
 # src/dashboard.py
 
 import streamlit as st
