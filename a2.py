@@ -19,6 +19,8 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).parent
 
+consumption_df, generation_df = load_data()
+
 @st.cache_data
 def load_data():
     energy_consumption = pd.read_csv(
@@ -32,9 +34,6 @@ def load_data():
 st.write("Columns:", consumption_df.columns.tolist())
 st.write(consumption_df.head())
 
-
-
-consumption_df, generation_df = load_data()
 
 
 # clean column names
