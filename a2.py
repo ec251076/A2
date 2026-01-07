@@ -32,6 +32,10 @@ def load_data():
 
 consumption_df, generation_df = load_data()
 
+st.write("Consumption columns:", consumption_df.columns)
+st.write(consumption_df.head())
+
+
 # -----------------------------
 # Sidebar controls
 # -----------------------------
