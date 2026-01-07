@@ -1,1 +1,13 @@
-placeholder
+Date,Source,Emissions
+2018-01-01,Energy,800
+2018-01-01,Transport,400
+2018-01-01,Industry,127
+2018-01-02,Energy,810
+2018-01-02,Transport,395
+2018-01-02,Industry,123
+2019-01-01,Energy,780
+2019-01-01,Transport,420
+2019-01-01,Industry,88
+2019-01-02,Energy,790
+2019-01-02,Transport,415
+2019-01-02,Industry,83
