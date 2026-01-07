@@ -2,6 +2,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+from pathlib import Path
 
 # -----------------------------
 # Page configuration
@@ -13,67 +14,50 @@ st.set_page_config(
 )
 
 # -----------------------------
-# Data loading
+# Paths
 # -----------------------------
-from pathlib import Path
-
 BASE_DIR = Path(__file__).parent
+CONSUMPTION_FILE = BASE_DIR / "consumption.csv"
+GENERATION_FILE = BASE_DIR / "generation.csv"
 
+# -----------------------------
+# Data loading function
+# -----------------------------
+@st.cache_data
+def load_data():
+    consumption_df = pd.read_csv(CONSUMPTION_FILE)
+    generation_df = pd.read_csv(GENERATION_FILE)
+    # Clean column names immediately
+    consumption_df.columns = consumption_df.columns.str.strip().str.lower()
+    generation_df.columns = generation_df.columns.str.strip().str.lower()
+    # Ensure 'year' exists
+    if "year" not in consumption_df.columns:
+        if "date" in consumption_df.columns:
+            consumption_df["date"] = pd.to_datetime(consumption_df["date"])
+            consumption_df["year"] = consumption_df["date"].dt.year
+        elif "period" in consumption_df.columns:
+            consumption_df["year"] = consumption_df["period"].astype(int)
+        else:
+            st.error("No 'year' or 'date' column found in consumption data")
+            st.stop()
+    if "year" not in generation_df.columns:
+        if "date" in generation_df.columns:
+            generation_df["date"] = pd.to_datetime(generation_df["date"])
+            generation_df["year"] = generation_df["date"].dt.year
+    return consumption_df, generation_df
+
+# -----------------------------
+# Load data
+# -----------------------------
 consumption_df, generation_df = load_data()
 
-@st.cache_data
-
-def load_data():
-    consumption_df = pd.read_csv("consumption.csv")
-    generation_df = pd.read_csv("generation.csv")
-    
-    return energy_consumption, energy_generation
-
 st.write("Columns:", consumption_df.columns.tolist())
-st.write(consumption_df.head())
-
-
-
-# clean column names
-consumption_df.columns = consumption_df.columns.str.strip().str.lower()
-generation_df.columns = generation_df.columns.str.strip().str.lower()
-
-# create year
-if "date" in consumption_df.columns:
-    consumption_df["date"] = pd.to_datetime(consumption_df["date"])
-    consumption_df["year"] = consumption_df["date"].dt.year
-
-# NOW use year
-min_year = int(consumption_df["year"].min())
-max_year = int(consumption_df["year"].max())
-
-
-st.write("Consumption columns:", list(consumption_df.columns))
 st.write(consumption_df.head(3))
-
-
 
 # -----------------------------
 # Sidebar controls
 # -----------------------------
 st.sidebar.title("Controls")
-
-# Clean column names
-consumption_df.columns = consumption_df.columns.str.strip().str.lower()
-generation_df.columns = generation_df.columns.str.strip().str.lower()
-
-# --- Create year column safely ---
-if "year" not in consumption_df.columns:
-    if "date" in consumption_df.columns:
-        consumption_df["date"] = pd.to_datetime(consumption_df["date"])
-        consumption_df["year"] = consumption_df["date"].dt.year
-    elif "period" in consumption_df.columns:
-        consumption_df["year"] = consumption_df["period"].astype(int)
-    else:
-        st.error("No year or date column found in consumption data")
-        st.stop()
-
-
 min_year = int(consumption_df["year"].min())
 max_year = int(consumption_df["year"].max())
 
@@ -84,12 +68,11 @@ year_range = st.sidebar.slider(
     (min_year, max_year)
 )
 
-# Filter data based on user input
+# Filter data
 consumption_filtered = consumption_df[
     (consumption_df['year'] >= year_range[0]) &
     (consumption_df['year'] <= year_range[1])
 ]
-
 generation_filtered = generation_df[
     (generation_df['year'] >= year_range[0]) &
     (generation_df['year'] <= year_range[1])
@@ -111,12 +94,12 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
 # -----------------------------
 with tab1:
     st.header("Energy Overview")
-
+    
     total_consumption = consumption_filtered['consumption_mwh'].sum()
     renewable_share = (
-        generation_filtered[generation_filtered['source_type'] == 'Renewable']['generation_mwh'].sum()
+        generation_filtered[generation_filtered['source_type'].str.lower() == 'renewable']['generation_mwh'].sum()
         / generation_filtered['generation_mwh'].sum()
-    ) * 100
+    ) * 100 if generation_filtered['generation_mwh'].sum() > 0 else 0
 
     col1, col2 = st.columns(2)
     col1.metric("Total Consumption (MWh)", f"{total_consumption:,.0f}")
@@ -139,7 +122,6 @@ with tab1:
 # -----------------------------
 with tab2:
     st.header("Electricity Consumption Trends")
-
     fig = px.line(
         consumption_filtered,
         x="year",
@@ -151,7 +133,6 @@ with tab2:
     )
     fig.update_layout(template="plotly_white")
     st.plotly_chart(fig, use_container_width=True)
-
     st.write("Descriptive statistics")
     st.dataframe(consumption_filtered[['consumption_mwh']].describe().style.format("{:,.0f}"))
 
@@ -160,7 +141,6 @@ with tab2:
 # -----------------------------
 with tab3:
     st.header("Energy Generation Mix")
-
     fig = px.bar(
         generation_filtered,
         x="year",
@@ -179,18 +159,13 @@ with tab3:
 # -----------------------------
 with tab4:
     st.header("Renewable Energy Scenario Explorer")
-
     increase = st.slider(
         "Increase renewable generation by (%)",
-        0,
-        50,
-        20
+        0, 50, 20
     )
-
     scenario_df = generation_filtered.copy()
-    renewable_mask = scenario_df['source_type'] == 'Renewable'
+    renewable_mask = scenario_df['source_type'].str.lower() == 'renewable'
     scenario_df.loc[renewable_mask, 'generation_mwh'] *= (1 + increase / 100)
-
     fig = px.bar(
         scenario_df,
         x="year",
@@ -203,7 +178,6 @@ with tab4:
     )
     fig.update_layout(template="plotly_white", legend_title_text='Energy Source')
     st.plotly_chart(fig, use_container_width=True)
-
     st.caption("Scenarios are illustrative and not predictive")
 
 # -----------------------------
@@ -211,15 +185,13 @@ with tab4:
 # -----------------------------
 with tab5:
     st.header("Key Findings and Recommendations")
+    st.markdown("""
+    **Key findings:**
+    - Electricity consumption shows identifiable long-term trends.
+    - Renewable energy represents a growing but still limited share of total generation.
 
-    st.markdown(
-        """
-        **Key findings:**
-        - Electricity consumption shows identifiable long-term trends.
-        - Renewable energy represents a growing but still limited share of total generation.
+    **Recommendations:**
+    - Continued investment in renewable capacity.
+    - Use data-driven scenario analysis to support policy decisions.
+    """)
 
-        **Recommendations:**
-        - Continued investment in renewable capacity.
-        - Use data-driven scenario analysis to support policy decisions.
-        """
-    )
