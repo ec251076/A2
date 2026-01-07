@@ -1,1 +1,14 @@
-placeholder
+Date,Sector,Usage
+2018-01-01,Residential,8000
+2018-01-01,Commercial,5000
+2018-01-01,Industrial,10000
+2018-01-02,Residential,8100
+2018-01-02,Commercial,4950
+2018-01-02,Industrial,10200
+2019-01-01,Residential,7900
+2019-01-01,Commercial,5100
+2019-01-01,Industrial,9800
+2019-01-02,Residential,8000
+2019-01-02,Commercial,5050
+2019-01-02,Industrial,9900
+
